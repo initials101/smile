@@ -1,0 +1,895 @@
+{
+    "info": {
+      "name": "Dental Practice API",
+      "description": "Complete API collection for testing dental practice management system",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+      "_exporter_id": "dental-api-v1"
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": [
+        {
+          "key": "token",
+          "value": "{{7tyr&&&ryryry!!~~}}",
+          "type": "string"
+        }
+      ]
+    },
+    "variable": [
+      {
+        "key": "baseUrl",
+        "value": "http://localhost:5000/api",
+        "type": "string"
+      },
+      {
+        "key": "authToken",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "userId",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "dentistId",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "patientId",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "appointmentId",
+        "value": "",
+        "type": "string"
+      }
+    ],
+    "item": [
+      {
+        "name": "Authentication",
+        "item": [
+          {
+            "name": "Register User",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\",\n  \"firstName\": \"Test\",\n  \"lastName\": \"User\",\n  \"phone\": \"+1-555-0999\",\n  \"role\": \"patient\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/auth/register",
+                "host": ["{{baseUrl}}"],
+                "path": ["auth", "register"]
+              }
+            }
+          },
+          {
+            "name": "Login Admin",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "if (pm.response.code === 200) {",
+                    "    const response = pm.response.json();",
+                    "    if (response.token) {",
+                    "        pm.collectionVariables.set('authToken', response.token);",
+                    "        pm.collectionVariables.set('userId', response.user.id);",
+                    "    }",
+                    "}"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"email\": \"admin@smilecare.com\",\n  \"password\": \"admin123\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/auth/login",
+                "host": ["{{baseUrl}}"],
+                "path": ["auth", "login"]
+              }
+            }
+          },
+          {
+            "name": "Login Dentist (Dr. Smith)",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "if (pm.response.code === 200) {",
+                    "    const response = pm.response.json();",
+                    "    if (response.token) {",
+                    "        pm.collectionVariables.set('authToken', response.token);",
+                    "        pm.collectionVariables.set('userId', response.user.id);",
+                    "    }",
+                    "}"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"email\": \"dr.smith@smilecare.com\",\n  \"password\": \"dentist123\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/auth/login",
+                "host": ["{{baseUrl}}"],
+                "path": ["auth", "login"]
+              }
+            }
+          },
+          {
+            "name": "Login Patient (John Doe)",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "if (pm.response.code === 200) {",
+                    "    const response = pm.response.json();",
+                    "    if (response.token) {",
+                    "        pm.collectionVariables.set('authToken', response.token);",
+                    "        pm.collectionVariables.set('userId', response.user.id);",
+                    "    }",
+                    "}"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"email\": \"john.doe@email.com\",\n  \"password\": \"patient123\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/auth/login",
+                "host": ["{{baseUrl}}"],
+                "path": ["auth", "login"]
+              }
+            }
+          },
+          {
+            "name": "Refresh Token",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/auth/refresh",
+                "host": ["{{baseUrl}}"],
+                "path": ["auth", "refresh"]
+              }
+            }
+          },
+          {
+            "name": "Logout",
+            "request": {
+              "method": "POST",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/auth/logout",
+                "host": ["{{baseUrl}}"],
+                "path": ["auth", "logout"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Users",
+        "item": [
+          {
+            "name": "Get All Users",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/users",
+                "host": ["{{baseUrl}}"],
+                "path": ["users"]
+              }
+            }
+          },
+          {
+            "name": "Get User by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/users/{{userId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["users", "{{userId}}"]
+              }
+            }
+          },
+          {
+            "name": "Update User",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"firstName\": \"Updated\",\n  \"lastName\": \"Name\",\n  \"phone\": \"+1-555-0888\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/users/{{userId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["users", "{{userId}}"]
+              }
+            }
+          },
+          {
+            "name": "Delete User",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/users/{{userId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["users", "{{userId}}"]
+              }
+            }
+          },
+          {
+            "name": "Get Current User Profile",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/users/profile",
+                "host": ["{{baseUrl}}"],
+                "path": ["users", "profile"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dentists",
+        "item": [
+          {
+            "name": "Get All Dentists",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "if (pm.response.code === 200) {",
+                    "    const response = pm.response.json();",
+                    "    if (response.data && response.data.length > 0) {",
+                    "        pm.collectionVariables.set('dentistId', response.data[0]._id);",
+                    "    }",
+                    "}"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/dentists",
+                "host": ["{{baseUrl}}"],
+                "path": ["dentists"]
+              }
+            }
+          },
+          {
+            "name": "Get Dentist by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/dentists/{{dentistId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["dentists", "{{dentistId}}"]
+              }
+            }
+          },
+          {
+            "name": "Create Dentist Profile",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"dentistId\": \"DENT_NEW_001\",\n  \"userId\": \"{{userId}}\",\n  \"title\": \"Dr.\",\n  \"specializations\": [\"general-dentistry\"],\n  \"credentials\": [\n    {\n      \"type\": \"degree\",\n      \"name\": \"Doctor of Dental Surgery\",\n      \"issuingAuthority\": \"Test University\",\n      \"issueDate\": \"2020-05-15\",\n      \"isActive\": true\n    }\n  ],\n  \"experience\": {\n    \"yearsOfPractice\": 3\n  },\n  \"schedule\": {\n    \"regularHours\": [\n      {\n        \"dayOfWeek\": 1,\n        \"startTime\": \"09:00\",\n        \"endTime\": \"17:00\",\n        \"isActive\": true\n      }\n    ],\n    \"consultationDuration\": 30,\n    \"bufferTime\": 15\n  },\n  \"professionalInfo\": {\n    \"bio\": \"New dentist profile\",\n    \"languages\": [\"English\"]\n  },\n  \"status\": \"active\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/dentists",
+                "host": ["{{baseUrl}}"],
+                "path": ["dentists"]
+              }
+            }
+          },
+          {
+            "name": "Update Dentist",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"specializations\": [\"general-dentistry\", \"cosmetic-dentistry\"],\n  \"professionalInfo\": {\n    \"bio\": \"Updated bio with more experience\",\n    \"languages\": [\"English\", \"French\"]\n  }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/dentists/{{dentistId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["dentists", "{{dentistId}}"]
+              }
+            }
+          },
+          {
+            "name": "Delete Dentist",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/dentists/{{dentistId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["dentists", "{{dentistId}}"]
+              }
+            }
+          },
+          {
+            "name": "Get Dentist Schedule",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/dentists/{{dentistId}}/schedule",
+                "host": ["{{baseUrl}}"],
+                "path": ["dentists", "{{dentistId}}", "schedule"]
+              }
+            }
+          },
+          {
+            "name": "Update Dentist Schedule",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"regularHours\": [\n    {\n      \"dayOfWeek\": 1,\n      \"startTime\": \"08:00\",\n      \"endTime\": \"18:00\",\n      \"isActive\": true\n    },\n    {\n      \"dayOfWeek\": 2,\n      \"startTime\": \"08:00\",\n      \"endTime\": \"18:00\",\n      \"isActive\": true\n    }\n  ],\n  \"consultationDuration\": 45,\n  \"bufferTime\": 10\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/dentists/{{dentistId}}/schedule",
+                "host": ["{{baseUrl}}"],
+                "path": ["dentists", "{{dentistId}}", "schedule"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Patients",
+        "item": [
+          {
+            "name": "Get All Patients",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "if (pm.response.code === 200) {",
+                    "    const response = pm.response.json();",
+                    "    if (response.data && response.data.length > 0) {",
+                    "        pm.collectionVariables.set('patientId', response.data[0]._id);",
+                    "    }",
+                    "}"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/patients",
+                "host": ["{{baseUrl}}"],
+                "path": ["patients"]
+              }
+            }
+          },
+          {
+            "name": "Get Patient by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/patients/{{patientId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["patients", "{{patientId}}"]
+              }
+            }
+          },
+          {
+            "name": "Create Patient Profile",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"patientId\": \"PAT_NEW_001\",\n  \"userId\": \"{{userId}}\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"gender\": \"male\",\n  \"address\": {\n    \"street\": \"123 Test Street\",\n    \"city\": \"Test City\",\n    \"state\": \"CA\",\n    \"zipCode\": \"12345\"\n  },\n  \"insurance\": {\n    \"provider\": \"Test Insurance\",\n    \"policyNumber\": \"TEST123456\",\n    \"subscriberName\": \"Test Patient\"\n  },\n  \"emergencyContact\": {\n    \"name\": \"Emergency Contact\",\n    \"relationship\": \"spouse\",\n    \"phone\": \"+1-555-0999\"\n  }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/patients",
+                "host": ["{{baseUrl}}"],
+                "path": ["patients"]
+              }
+            }
+          },
+          {
+            "name": "Update Patient",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"address\": {\n    \"street\": \"456 Updated Street\",\n    \"city\": \"Updated City\",\n    \"state\": \"NY\",\n    \"zipCode\": \"67890\"\n  },\n  \"emergencyContact\": {\n    \"name\": \"Updated Contact\",\n    \"relationship\": \"parent\",\n    \"phone\": \"+1-555-0888\"\n  }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/patients/{{patientId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["patients", "{{patientId}}"]
+              }
+            }
+          },
+          {
+            "name": "Delete Patient",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/patients/{{patientId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["patients", "{{patientId}}"]
+              }
+            }
+          },
+          {
+            "name": "Add Medical History",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"condition\": \"Diabetes\",\n  \"diagnosedDate\": \"2023-01-15\",\n  \"status\": \"active\",\n  \"notes\": \"Type 2 diabetes, well controlled\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/patients/{{patientId}}/medical-history",
+                "host": ["{{baseUrl}}"],
+                "path": ["patients", "{{patientId}}", "medical-history"]
+              }
+            }
+          },
+          {
+            "name": "Add Allergy",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"allergen\": \"Latex\",\n  \"severity\": \"severe\",\n  \"reaction\": \"Anaphylaxis\",\n  \"notes\": \"Requires latex-free environment\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/patients/{{patientId}}/allergies",
+                "host": ["{{baseUrl}}"],
+                "path": ["patients", "{{patientId}}", "allergies"]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Appointments",
+        "item": [
+          {
+            "name": "Get All Appointments",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "if (pm.response.code === 200) {",
+                    "    const response = pm.response.json();",
+                    "    if (response.data && response.data.length > 0) {",
+                    "        pm.collectionVariables.set('appointmentId', response.data[0]._id);",
+                    "    }",
+                    "}"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/appointments",
+                "host": ["{{baseUrl}}"],
+                "path": ["appointments"]
+              }
+            }
+          },
+          {
+            "name": "Get Appointment by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/appointments/{{appointmentId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["appointments", "{{appointmentId}}"]
+              }
+            }
+          },
+          {
+            "name": "Create Appointment",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"appointmentId\": \"APT_NEW_001\",\n  \"patient\": \"{{patientId}}\",\n  \"dentist\": \"{{dentistId}}\",\n  \"appointmentDate\": \"2024-12-15\",\n  \"startTime\": \"10:00\",\n  \"endTime\": \"10:30\",\n  \"duration\": 30,\n  \"type\": \"checkup\",\n  \"reason\": \"Regular checkup\",\n  \"status\": \"scheduled\",\n  \"priority\": \"normal\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/appointments",
+                "host": ["{{baseUrl}}"],
+                "path": ["appointments"]
+              }
+            }
+          },
+          {
+            "name": "Update Appointment",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"appointmentDate\": \"2024-12-16\",\n  \"startTime\": \"14:00\",\n  \"endTime\": \"14:30\",\n  \"status\": \"confirmed\",\n  \"reason\": \"Updated checkup appointment\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/appointments/{{appointmentId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["appointments", "{{appointmentId}}"]
+              }
+            }
+          },
+          {
+            "name": "Cancel Appointment",
+            "request": {
+              "method": "PATCH",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"status\": \"cancelled\",\n  \"cancellationReason\": \"Patient requested cancellation\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/appointments/{{appointmentId}}/cancel",
+                "host": ["{{baseUrl}}"],
+                "path": ["appointments", "{{appointmentId}}", "cancel"]
+              }
+            }
+          },
+          {
+            "name": "Confirm Appointment",
+            "request": {
+              "method": "PATCH",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"status\": \"confirmed\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/appointments/{{appointmentId}}/confirm",
+                "host": ["{{baseUrl}}"],
+                "path": ["appointments", "{{appointmentId}}", "confirm"]
+              }
+            }
+          },
+          {
+            "name": "Complete Appointment",
+            "request": {
+              "method": "PATCH",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"status\": \"completed\",\n  \"notes\": \"Routine cleaning completed successfully\",\n  \"treatmentProvided\": \"Professional cleaning and fluoride treatment\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/appointments/{{appointmentId}}/complete",
+                "host": ["{{baseUrl}}"],
+                "path": ["appointments", "{{appointmentId}}", "complete"]
+              }
+            }
+          },
+          {
+            "name": "Delete Appointment",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/appointments/{{appointmentId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["appointments", "{{appointmentId}}"]
+              }
+            }
+          },
+          {
+            "name": "Get Appointments by Date Range",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/appointments?startDate=2024-12-01&endDate=2024-12-31",
+                "host": ["{{baseUrl}}"],
+                "path": ["appointments"],
+                "query": [
+                  {
+                    "key": "startDate",
+                    "value": "2024-12-01"
+                  },
+                  {
+                    "key": "endDate",
+                    "value": "2024-12-31"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Appointments by Dentist",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/appointments?dentist={{dentistId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["appointments"],
+                "query": [
+                  {
+                    "key": "dentist",
+                    "value": "{{dentistId}}"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Appointments by Patient",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/appointments?patient={{patientId}}",
+                "host": ["{{baseUrl}}"],
+                "path": ["appointments"],
+                "query": [
+                  {
+                    "key": "patient",
+                    "value": "{{patientId}}"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Reports & Analytics",
+        "item": [
+          {
+            "name": "Get Dashboard Stats",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/reports/dashboard",
+                "host": ["{{baseUrl}}"],
+                "path": ["reports", "dashboard"]
+              }
+            }
+          },
+          {
+            "name": "Get Appointment Statistics",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/reports/appointments?period=month",
+                "host": ["{{baseUrl}}"],
+                "path": ["reports", "appointments"],
+                "query": [
+                  {
+                    "key": "period",
+                    "value": "month"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Revenue Report",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/reports/revenue?startDate=2024-01-01&endDate=2024-12-31",
+                "host": ["{{baseUrl}}"],
+                "path": ["reports", "revenue"],
+                "query": [
+                  {
+                    "key": "startDate",
+                    "value": "2024-01-01"
+                  },
+                  {
+                    "key": "endDate",
+                    "value": "2024-12-31"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Available Time Slots",
+        "item": [
+          {
+            "name": "Get Available Slots for Dentist",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/dentists/{{dentistId}}/available-slots?date=2024-12-15",
+                "host": ["{{baseUrl}}"],
+                "path": ["dentists", "{{dentistId}}", "available-slots"],
+                "query": [
+                  {
+                    "key": "date",
+                    "value": "2024-12-15"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Available Slots for Date Range",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/dentists/{{dentistId}}/available-slots?startDate=2024-12-15&endDate=2024-12-20",
+                "host": ["{{baseUrl}}"],
+                "path": ["dentists", "{{dentistId}}", "available-slots"],
+                "query": [
+                  {
+                    "key": "startDate",
+                    "value": "2024-12-15"
+                  },
+                  {
+                    "key": "endDate",
+                    "value": "2024-12-20"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+  
