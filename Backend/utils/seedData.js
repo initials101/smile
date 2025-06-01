@@ -54,6 +54,7 @@ const seedData = async () => {
 
     const dentists = await Dentist.insertMany([
       {
+        dentistId: `DENT_${Date.now()}_001`, // Added missing dentistId
         userId: dentistUsers[0]._id,
         title: 'Dr.',
         specializations: ['general-dentistry', 'cosmetic-dentistry'],
@@ -87,6 +88,7 @@ const seedData = async () => {
         status: 'active'
       },
       {
+        dentistId: `DENT_${Date.now()}_002`, // Added missing dentistId
         userId: dentistUsers[1]._id,
         title: 'Dr.',
         specializations: ['orthodontics', 'pediatric-dentistry'],
@@ -157,6 +159,7 @@ const seedData = async () => {
 
     const patients = await Patient.insertMany([
       {
+        patientId: `PAT_${Date.now()}_001`, // Added missing patientId
         userId: patientUsers[0]._id,
         dateOfBirth: new Date('1985-03-15'),
         gender: 'male',
@@ -192,6 +195,7 @@ const seedData = async () => {
         ]
       },
       {
+        patientId: `PAT_${Date.now()}_002`, // Added missing patientId
         userId: patientUsers[1]._id,
         dateOfBirth: new Date('1990-07-22'),
         gender: 'female',
@@ -213,6 +217,7 @@ const seedData = async () => {
         }
       },
       {
+        patientId: `PAT_${Date.now()}_003`, // Added missing patientId
         userId: patientUsers[2]._id,
         dateOfBirth: new Date('1978-11-03'),
         gender: 'male',
@@ -247,33 +252,39 @@ const seedData = async () => {
 
     await Appointment.insertMany([
       {
+        appointmentId: `APT_${Date.now()}_001`, // Added missing appointmentId
         patient: patients[0]._id,
         dentist: dentists[0]._id,
         appointmentDate: tomorrow,
         startTime: '10:00',
         endTime: '10:30',
+        duration: 30, // Added missing duration (in minutes)
         type: 'checkup',
         reason: 'Regular dental checkup',
         status: 'scheduled',
         priority: 'normal'
       },
       {
+        appointmentId: `APT_${Date.now()}_002`, // Added missing appointmentId
         patient: patients[1]._id,
         dentist: dentists[1]._id,
         appointmentDate: nextWeek,
         startTime: '14:00',
         endTime: '15:00',
+        duration: 60, // Added missing duration (in minutes)
         type: 'consultation',
         reason: 'Orthodontic consultation',
         status: 'confirmed',
         priority: 'normal'
       },
       {
+        appointmentId: `APT_${Date.now()}_003`, // Added missing appointmentId
         patient: patients[2]._id,
         dentist: dentists[0]._id,
         appointmentDate: new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000),
         startTime: '11:30',
         endTime: '12:00',
+        duration: 30, // Added missing duration (in minutes)
         type: 'cleaning',
         reason: 'Dental cleaning and fluoride treatment',
         status: 'scheduled',
